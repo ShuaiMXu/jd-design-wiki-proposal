@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>京东设计 wiki · AI 时代升级路线图</title>
+<style>
+html, body { height: 100%; margin: 0; overflow-x: hidden; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+:root {
+  --bg: #0e0e10;
+  --ink: #f8f4ec;
+  --muted: #8b8680;
+  --line: rgba(248,244,236,0.08);
+  --accent: #fa2c19;
+  --accent-soft: rgba(250,44,25,0.12);
+  --surface: rgba(255,255,255,0.03);
+  --surface-hi: rgba(255,255,255,0.05);
+
+  --title-size: clamp(1.5rem, 3.8vw, 3.2rem);
+  --h2-size: clamp(1.1rem, 2.1vw, 1.8rem);
+  --h3-size: clamp(0.92rem, 1.4vw, 1.2rem);
+  --body-size: clamp(0.75rem, 1vw, 0.95rem);
+  --small-size: clamp(0.65rem, 0.82vw, 0.78rem);
+  --pad: clamp(1.2rem, 3vw, 3rem);
+  --gap: clamp(0.5rem, 1.2vw, 1rem);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "PingFang SC","Helvetica Neue",-apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+
+.slide {
+  width: 100vw; height: 100vh; height: 100dvh;
+  overflow: hidden; scroll-snap-align: start;
+  display: flex; flex-direction: column; position: relative;
+}
+.slide::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none; opacity: 0.4;
+}
+.slide::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60vw 60vh at 85% 100%, rgba(250,44,25,0.06), transparent 50%),
+    radial-gradient(ellipse 50vw 50vh at 15% 0%, rgba(250,44,25,0.04), transparent 60%);
+  pointer-events: none;
+}
+
+.container {
+  position: relative; z-index: 1; flex: 1;
+  display: flex; flex-direction: column;
+  padding: var(--pad); gap: var(--gap);
+  max-height: 100%; overflow: hidden;
+}
+
+/* Nav dots */
+.nav-dots {
+  position: fixed;
+  right: clamp(0.8rem, 2vw, 2rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 0.8vw, 0.6rem);
+  z-index: 100;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  border: 1px solid var(--muted);
+  display: block;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.nav-dot:hover, .nav-dot.active { background: var(--accent); border-color: var(--accent); transform: scale(1.4); }
+
+/* Header */
+.eyebrow {
+  font-size: var(--small-size);
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 0.4em;
+}
+.step-num {
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: clamp(4rem, 11vw, 9rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.25;
+  position: absolute;
+  top: clamp(1.5rem, 4vw, 3rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  z-index: 0;
+  pointer-events: none;
+}
+.header { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; position: relative; z-index: 2; }
+h1 {
+  font-size: var(--title-size);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+h1 .accent { color: var(--accent); }
+.meta { text-align: right; font-size: var(--small-size); color: var(--muted); line-height: 1.6; }
+
+h2 {
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* 4-quadrant grid */
+.quad {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--gap);
+  min-height: 0;
+  margin-top: clamp(0.5rem, 1.2vw, 1rem);
+}
+.q {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(0.9rem, 1.6vw, 1.4rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.3rem, 0.8vw, 0.6rem);
+  overflow: hidden;
+}
+.q-tag {
+  font-size: var(--small-size);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent);
+}
+.q-title {
+  font-size: var(--h3-size);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.q-body {
+  font-size: var(--body-size);
+  color: var(--ink);
+  line-height: 1.55;
+}
+.q-body ul { padding-left: 1em; margin: 0.3em 0; }
+.q-body li { margin-bottom: 0.3em; }
+.q-body strong { color: var(--accent); font-weight: 600; }
+.q-body code { font-family: "SF Mono", ui-monospace, monospace; background: rgba(250,44,25,0.08); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.92em; color: var(--ink); }
+
+/* Cover slide */
+.cover-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: clamp(1rem, 2vw, 1.6rem); }
+.cover-title {
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.cover-title .accent { color: var(--accent); }
+.cover-sub { font-size: var(--h2-size); color: var(--muted); line-height: 1.5; max-width: 800px; font-weight: 400; }
+.path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.4rem, 1vw, 0.8rem);
+  margin-top: clamp(0.8rem, 1.5vw, 1.2rem);
+}
+.path-step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: clamp(0.6rem, 1.2vw, 0.9rem) clamp(0.8rem, 1.5vw, 1.1rem);
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  font-size: var(--body-size);
+  flex: 1 1 auto;
+  min-width: clamp(180px, 15vw, 230px);
+}
+.path-step .n { font-family: "SF Mono", ui-monospace, monospace; font-weight: 900; color: var(--accent); font-size: 1.2em; }
+.path-step .t { color: var(--ink); font-weight: 500; }
+.path-step.focal { background: var(--accent-soft); border-color: rgba(250,44,25,0.4); }
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: clamp(0.4rem, 1vw, 0.8rem);
+  font-size: var(--small-size);
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  margin-top: clamp(0.4rem, 1vw, 0.8rem);
+}
+
+/* Timeline page */
+.timeline-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: clamp(0.6rem, 1.2vw, 1rem); }
+.tl-row {
+  display: grid;
+  grid-template-columns: clamp(100px, 12vw, 160px) 1fr;
+  gap: clamp(0.8rem, 2vw, 1.5rem);
+  padding: clamp(0.7rem, 1.4vw, 1rem) 0;
+  border-bottom: 1px dashed var(--line);
+  align-items: center;
+}
+.tl-row:last-child { border-bottom: none; }
+.tl-phase {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: var(--h3-size);
+}
+.tl-body {
+  font-size: var(--body-size);
+  line-height: 1.5;
+}
+.tl-body strong { color: var(--ink); font-weight: 700; }
+
+/* Responsive */
+@media (max-height: 780px) {
+  :root {
+    --pad: clamp(0.8rem, 2.2vw, 2rem);
+    --gap: clamp(0.4rem, 0.9vw, 0.7rem);
+  }
+  .step-num { font-size: clamp(3rem, 8vw, 6rem); }
+}
+@media (max-height: 600px) {
+  .quad { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+  .q { padding: 0.7rem; }
+}
+@media (max-width: 900px) {
+  .quad { grid-template-columns: 1fr; grid-template-rows: repeat(4, auto); }
+  .nav-dots { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation dots -->
+<nav class="nav-dots" aria-label="导航">
+  <a href="#cover" class="nav-dot" title="概览"></a>
+  <a href="#step1" class="nav-dot" title="Step 1"></a>
+  <a href="#step2" class="nav-dot" title="Step 2"></a>
+  <a href="#step3" class="nav-dot" title="Step 3"></a>
+  <a href="#step4" class="nav-dot" title="Step 4"></a>
+  <a href="#step5" class="nav-dot" title="Step 5"></a>
+  <a href="#timeline" class="nav-dot" title="时间表"></a>
+</nav>
+
+<!-- ============ COVER ============ -->
+<section class="slide" id="cover">
+  <div class="container">
+    <header class="header">
+      <div>
+        <div class="eyebrow">JD Design Wiki · AI-Ready Buildup Plan · v0.3</div>
+      </div>
+      <div class="meta">2026-04<br/>综合业务设计组 · Shaka 牵引</div>
+    </header>
+
+    <div class="cover-wrap">
+      <div class="cover-title">
+        让京东设计 wiki 在 <span class="accent">AI 时代</span>用起来
+      </div>
+      <p class="cover-sub">
+        不是建一套新系统，是把现有 wiki 升级为 AI 可消费、可协作、可发版的活系统。
+        <br/>按 wiki 树的逻辑有秩序地展开：<strong style="color:var(--ink);">先根、再角色、再场域、再工具、最后 AI</strong>。
+      </p>
+
+      <div class="path">
+        <div class="path-step"><span class="n">01</span><span class="t">录入 15.0 设计语言到 MD</span></div>
+        <div class="path-step"><span class="n">02</span><span class="t">各角色初始化模板</span></div>
+        <div class="path-step"><span class="n">03</span><span class="t">按场域构建完整 MD</span></div>
+        <div class="path-step"><span class="n">04</span><span class="t">Figma + Zero 打通</span></div>
+        <div class="path-step focal"><span class="n">05</span><span class="t">AI 工具自动化</span></div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div>每步回答 4 个问题：如何做 · 怎么做 · 要求的结果 · 需要什么协同</div>
+      <div>↓ 向下滚动</div>
+    </footer>
+  </div>
+</section>
+
+<!-- ============ STEP 1 ============ -->
+<section class="slide" id="step1">
+  <div class="container">
+    <div class="step-num">01</div>
+    <header class="header">
+      <div>
+        <div class="eyebrow">Step 01 · Foundation</div>
+        <h1>15.0 设计语言 录入 <span class="accent">DESIGN.md</span></h1>
+      </div>
+      <div class="meta">起点<br/>Week 1</div>
+    </header>
+
+    <div class="quad">
+      <div class="q">
+        <div class="q-tag">如何做</div>
+        <div class="q-title">把已有的"根"先立住</div>
+        <div class="q-body">
+          京东 15.0 的设计语言已经沉淀在 wiki / Figma / 文档里。
+          第一步不是发明新东西，是<strong>有秩序地迁移</strong>——把颜色、字号、间距、圆角、动效、图标、语气等基础资产，按结构化模板转成 MD。
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">怎么做</div>
+        <div class="q-title">按模块拆，一个个转</div>
+        <div class="q-body">
+          <ul>
+            <li><code>foundations/color.md</code> — 色板 + 语义色</li>
+            <li><code>foundations/typography.md</code> — 字号 + 字重 + 行高</li>
+            <li><code>foundations/spacing.md</code> — 栅格 + 间距</li>
+            <li><code>foundations/radius.md</code> — 圆角值域</li>
+            <li><code>foundations/motion.md</code> — 动效规格</li>
+            <li><code>foundations/voice.md</code> — 文案语气</li>
+          </ul>
+          用 <strong>W3C DTCG</strong> 规范存 token。
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">要求的结果</div>
+        <div class="q-title">一份可查的根 MD</div>
+        <div class="q-body">
+          <ul>
+            <li>6-8 份 <code>foundations/*.md</code> 完整可读</li>
+            <li>每份带 YAML 头（机器可读 token）</li>
+            <li>和 Figma 现有库 <strong>数值对齐</strong>（若不一致，15.0 优先）</li>
+            <li>committed 进 Git，有 Owner</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">协同</div>
+        <div class="q-title">视觉为主，Shaka 牵引</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>视觉设计团队</strong> — 负责提供 15.0 原始 token</li>
+            <li><strong>基础组件 owner</strong> — 对齐 Figma 库</li>
+            <li><strong>前端架构</strong> — 确认 DTCG 格式能被代码消费</li>
+            <li><strong>内容策略</strong> — voice.md 协同</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEP 2 ============ -->
+<section class="slide" id="step2">
+  <div class="container">
+    <div class="step-num">02</div>
+    <header class="header">
+      <div>
+        <div class="eyebrow">Step 02 · Role Templates</div>
+        <h1>各角色 <span class="accent">初始化模板</span></h1>
+      </div>
+      <div class="meta">Week 1-2</div>
+    </header>
+
+    <div class="quad">
+      <div class="q">
+        <div class="q-tag">如何做</div>
+        <div class="q-title">给每个角色一张"填空卡"</div>
+        <div class="q-body">
+          每个组件 MD 由多个角色共同填写。我们先给每个角色一份 <strong>初始化模板</strong>（填空卡），让他们知道"要填什么、填到哪、填多深"。
+          避免每次从零开始、每次写成不同姿势。
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">怎么做</div>
+        <div class="q-title">4 个核心角色 × 4 份模板</div>
+        <div class="q-body">
+          <ul>
+            <li><code>templates/product.md</code> — 业务目标、KPI、商业载荷</li>
+            <li><code>templates/research.md</code> — 用户画像、痛点、场景数据</li>
+            <li><code>templates/visual.md</code> — 视觉规范、变体、Token 引用</li>
+            <li><code>templates/experience.md</code> — 旅程、规则、禁止用法</li>
+          </ul>
+          每份模板 = 结构化段落 + 字段级说明 + 示例。
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">要求的结果</div>
+        <div class="q-title">可复用的角色填空卡</div>
+        <div class="q-body">
+          <ul>
+            <li>4 份 <code>templates/*.md</code> + 写法指南</li>
+            <li>每份都被对应角色 <strong>POC 确认</strong>（我填得来、填得完、填得下一个）</li>
+            <li>一份 <code>templates/combined-example.md</code> 把 4 份拼成一份完整组件 MD 示范</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">协同</div>
+        <div class="q-title">4 个角色 POC 共建</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>产品代表</strong> — 确认 product 模板</li>
+            <li><strong>用研代表</strong> — 确认 research 模板</li>
+            <li><strong>视觉代表</strong> — 确认 visual 模板</li>
+            <li><strong>体验设计代表</strong> — 确认 experience 模板</li>
+          </ul>
+          每个 POC 独立填一次模板 → 给反馈 → 迭代。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEP 3 ============ -->
+<section class="slide" id="step3">
+  <div class="container">
+    <div class="step-num">03</div>
+    <header class="header">
+      <div>
+        <div class="eyebrow">Step 03 · Domain MDs</div>
+        <h1>场域试点 · <span class="accent">自下而上</span>拆分</h1>
+      </div>
+      <div class="meta">Week 2-3</div>
+    </header>
+
+    <div class="quad">
+      <div class="q">
+        <div class="q-tag">如何做</div>
+        <div class="q-title">先选 2-3 个场域试点</div>
+        <div class="q-body">
+          不贪多——先选 <strong>2-3 个代表性场域</strong>（推荐 / 点评 / 直播）。
+          每个场域 <strong>自下而上</strong>展开：Token → 组件 → 核心页面 → 细拆变体。
+          底层对齐，上层自然统一。
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">怎么做</div>
+        <div class="q-title">四级逐层拆</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>① Token</strong> — 本场域用 foundations 的哪些变量</li>
+            <li><strong>② 组件</strong> — 本场域有哪些组件（如点评图文卡 / 视频卡）</li>
+            <li><strong>③ 核心页面</strong> — 组件用在哪些主干页面（求真官首页 / 商详评价）</li>
+            <li><strong>④ 细拆</strong> — 子变体 / 异常态 / 节奏场景</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">要求的结果</div>
+        <div class="q-title">2-3 棵完整场域树</div>
+        <div class="q-body">
+          <ul>
+            <li>每个试点场域都有 Token / 组件 / 页面 / 细拆 4 层 MD</li>
+            <li>组件 MD 含 <strong>产品 + 用研 + 视觉 + 体验</strong> 4 段</li>
+            <li>Semver 版本号 + Owner + Reviewer 列表</li>
+            <li>重要决策跟随 <strong>ADR</strong> 留痕</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">协同</div>
+        <div class="q-title">多业务线共建</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>各业务线组件 owner</strong> — 认领组件并填写</li>
+            <li><strong>4 个角色 POC</strong> — Review 自己领域段落</li>
+            <li><strong>Steering Committee</strong> — 裁决冲突、定稳定性标签</li>
+            <li><strong>Shaka</strong> — 每周 office hour 答疑</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEP 4 ============ -->
+<section class="slide" id="step4">
+  <div class="container">
+    <div class="step-num">04</div>
+    <header class="header">
+      <div>
+        <div class="eyebrow">Step 04 · Tool Sync</div>
+        <h1><span class="accent">Figma</span> + <span class="accent">Zero</span> 打通 POC</h1>
+      </div>
+      <div class="meta">Week 3</div>
+    </header>
+
+    <div class="quad">
+      <div class="q">
+        <div class="q-tag">如何做</div>
+        <div class="q-title">让设计工具消费 MD</div>
+        <div class="q-body">
+          MD 是源、Figma / Zero 是消费端。建立<strong>双向同步</strong>——
+          MD 改了工具自动更新；设计师在工具里改了组件，提 PR 到 MD。
+          <br/>Zero = 京东自研、类 Figma 的设计产品，需要专项打通。
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">怎么做</div>
+        <div class="q-title">Token + 组件双轨同步</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>Token 同步</strong>：DTCG JSON ↔ Figma Tokens Studio / Zero Token 面板</li>
+            <li><strong>组件同步</strong>：Figma Code Connect + Zero Component 绑定 MD</li>
+            <li><strong>PR 回流</strong>：设计师在工具里改了组件，自动生成 PR 草稿</li>
+            <li><strong>变体一致性</strong>：MD 的 variants/ 和工具库自动映射</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">要求的结果</div>
+        <div class="q-title">三方对齐，不再漂移</div>
+        <div class="q-body">
+          <ul>
+            <li>Token 在 <strong>MD / Figma / Zero</strong> 值完全一致</li>
+            <li>Figma 和 Zero 里的组件能跳转到对应 <code>DESIGN.md</code></li>
+            <li>MD 里的变体能 embed Figma / Zero 链接</li>
+            <li>设计师改组件 → 20 秒内生成 PR（不需要学 Git）</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">协同</div>
+        <div class="q-title">跨工具团队深度合作</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>前端架构</strong> — Token 同步工具链</li>
+            <li><strong>Zero 团队</strong> — Zero API / 插件支持</li>
+            <li><strong>Figma Plugin 开发</strong>（内部或外采）</li>
+            <li><strong>设计师 POC</strong> — 使用体验反馈</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEP 5 ============ -->
+<section class="slide" id="step5">
+  <div class="container">
+    <div class="step-num">05</div>
+    <header class="header">
+      <div>
+        <div class="eyebrow">Step 05 · AI Consumption</div>
+        <h1>AI 工具 <span class="accent">自动化消费</span></h1>
+      </div>
+      <div class="meta">Week 4</div>
+    </header>
+
+    <div class="quad">
+      <div class="q">
+        <div class="q-tag">如何做</div>
+        <div class="q-title">压轴一步 · 让 AI 真正用起来</div>
+        <div class="q-body">
+          前 4 步是基础建设，这一步是<strong>兑现价值</strong>。
+          每份 DESIGN.md 自动生成对应 AI Skill，
+          让 Figma AI / Cursor / Claude / 自研 agent 都能"读懂京东的设计哲学"。
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">怎么做</div>
+        <div class="q-title">MD → Skill → Agent 消费</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>自动生成 Skill</strong>：从 MD 的 AI 字段生成 <code>SKILL.md</code></li>
+            <li>兼容 <strong>agentskills.io</strong> 标准（45+ 主流 agent 可用）</li>
+            <li><strong>Skill Registry</strong>：京东内部统一目录，类 shadcn Registry</li>
+            <li><strong>MCP 服务</strong>：下游 AI 工具通过 MCP 订阅 Registry</li>
+            <li><strong>双列卡 skill</strong>（v0.5.2 已开源）作为首批接入样本</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">要求的结果</div>
+        <div class="q-title">AI 生成即合规</div>
+        <div class="q-body">
+          <ul>
+            <li>每个组件都有对应可被调用的 AI Skill</li>
+            <li>Figma AI / Zero AI 生成新屏时<strong>自动符合京东规范</strong></li>
+            <li>Cursor / 内部 agent 写代码时<strong>自动用对的 Token</strong></li>
+            <li>设计师审查变体时<strong>AI 辅助做跨场景同物种识别</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="q">
+        <div class="q-tag">协同</div>
+        <div class="q-title">AI / Agent 团队主导</div>
+        <div class="q-body">
+          <ul>
+            <li><strong>AI / Agent 团队</strong> — 生成工具 + Registry + MCP</li>
+            <li><strong>前端架构</strong> — CI 集成、skill 构建流水线</li>
+            <li><strong>各组件 owner</strong> — 确认自己组件的 skill 准确性</li>
+            <li><strong>Zero / Figma 团队</strong> — AI 工具接入协议</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="slide" id="timeline">
+  <div class="container">
+    <header class="header">
+      <div>
+        <div class="eyebrow">Timeline · 1 Month MVP</div>
+        <h1>一个月内 <span class="accent">跑通 MVP</span></h1>
+      </div>
+      <div class="meta">4 周路线图</div>
+    </header>
+
+    <div class="timeline-wrap">
+      <div class="tl-row">
+        <div class="tl-phase">Week 1</div>
+        <div class="tl-body"><strong>Step 1</strong> · 录入 15.0 设计语言到 <code>foundations/*.md</code>（6 个基础模块）。同步启动 <strong>Step 2</strong> 模板草案。</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-phase">Week 1-2</div>
+        <div class="tl-body"><strong>Step 2</strong> · 4 份角色模板 POC 确认 + 一份拼合示范。双列卡按新规范重组成标杆样本。</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-phase">Week 2-3</div>
+        <div class="tl-body"><strong>Step 3</strong> · 2-3 个场域试点（推荐 / 点评 / 直播），每个自下而上：Token → 组件 → 核心页面 → 细拆。</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-phase">Week 3</div>
+        <div class="tl-body"><strong>Step 4</strong> · Figma + Zero 打通 POC（Token 同步优先，组件双向同步先选 1 个打通）。</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-phase">Week 4</div>
+        <div class="tl-body"><strong>Step 5</strong> · AI 工具自动化 POC · 双列卡 skill 接入 Registry，验证 Figma AI / Cursor 等能消费。</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-phase">月底</div>
+        <div class="tl-body"><strong>MVP 完成</strong> · 一个月内跑通 5 步 · 产出标杆样本 + 完整路径验证 · 汇报 + 决定是否规模化。</div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div>v0.3 · 综合业务设计组 · Shaka 牵引</div>
+      <div>4 周跑通 MVP · 再决定规模化节奏</div>
+    </footer>
+  </div>
+</section>
+
+<script>
+// Nav dot active state on scroll
+const dots = document.querySelectorAll('.nav-dot');
+const slides = document.querySelectorAll('.slide');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      dots.forEach(d => d.classList.remove('active'));
+      const idx = [...slides].indexOf(e.target);
+      if (dots[idx]) dots[idx].classList.add('active');
+    }
+  });
+}, { threshold: 0.5 });
+slides.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
