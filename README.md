@@ -6,11 +6,20 @@
 
 ---
 
-## 三份 HTML · 各取所需
+## ⭐ 给老板的 30 秒汇报
+
+→ **[`jd-design-wiki-executive-summary.html`](./jd-design-wiki-executive-summary.html)** — Executive Summary，老板看 30 秒能 get 全貌
+
+5 段式：**WHY**（4 个结构性问题）→ **WHAT**（3 个核心改造）→ **SO WHAT**（3 阶段量化结果）→ **NEXT**（进度+需要支持）→ **CTA**（核心金句）
+
+---
+
+## 四份 HTML · 各取所需
 
 | 文件 | 用途 | 谁看 |
 |---|---|---|
-| **[`jd-design-wiki-master-diagram.html`](./jd-design-wiki-master-diagram.html)** | **架构大图 · 演讲用**（首屏单图 + Deep Dive 5 大 Zone + 10 个 md 模板） | 老板 / 评审 / 跨部门同事 |
+| **[`jd-design-wiki-executive-summary.html`](./jd-design-wiki-executive-summary.html)** | **30 秒汇报版**（WHY/WHAT/SO WHAT/NEXT/CTA 五段式） | **老板 / 决策层** |
+| **[`jd-design-wiki-master-diagram.html`](./jd-design-wiki-master-diagram.html)** | **架构大图 · 演讲用**（5 个 Zone 可点击切换 + 29 个 md 模板） | 评审 / 跨部门同事 |
 | **[`jd-design-wiki-knowledge-tree.html`](./jd-design-wiki-knowledge-tree.html)** | **知识树 · 顶层导航**（5 大 Zone + 二级目录 + 角色 owner） | 全员 |
 | **[`jd-design-wiki-contributor-guide.html`](./jd-design-wiki-contributor-guide.html)** | **贡献指南 · 执行手册**（5 步流程 + 维度边界 + multi-md 文件结构） | 业务线设计师 |
 
@@ -52,10 +61,16 @@
 
 ## 推荐阅读顺序
 
-### 给老板汇报（5 分钟）
+### 给老板汇报（30 秒 → 2 分钟弹性）★
+→ 打开 `jd-design-wiki-executive-summary.html`
+→ 30 秒版：只读 Hero + Final CTA 金句
+→ 2 分钟版：+ WHY 4 痛点 + WHAT 3 改造 + 3 阶段时间线
+→ 老板深问 → 跳转 `master-diagram.html` 看具体架构
+
+### 给评审 / 跨部门同事（10 分钟）
 → 打开 `jd-design-wiki-master-diagram.html`
 → 按 **F11 全屏**讲第一屏架构图
-→ 按"↓ 向下滚动"展开 5 大 Zone 细节
+→ **点 5 个 Zone 卡切换**看每个 Zone 的 multi-md 结构和模板
 
 ### 业务线设计师上手（10 分钟）
 → 先看 `jd-design-wiki-knowledge-tree.html` 找到"我归到哪个 Zone"
@@ -67,17 +82,19 @@
 
 ---
 
-## 三份 HTML 的内在关系
+## 四份 HTML 的内在关系
 
 ```
-master-diagram.html (含 Templates)
+executive-summary.html (30 秒汇报)
+        ↓ footer 链接到
+master-diagram.html (含 5 Zone × 29 个 md 模板)
         ↑ 跨文件锚点跳转
 contributor-guide.html (md 文件名 → master-diagram#tpl-xxx)
         ↕ footer 互链
 knowledge-tree.html (顶层导航)
 ```
 
-任何一个文件打开，都能在 footer 找到另两个的入口。
+任何一个文件打开，都能在 footer 找到另几个的入口。
 
 ---
 
