@@ -354,10 +354,12 @@ mindmap
       消费协议
       Agent 守则
     🏗 产品架构
-      业务线地图
-      场域×组件矩阵
-      核心页面
-      引用关系
+      domains 部门×业务×组件
+        设计与用研部-综合业务设计部
+        设计与用研部-XX 设计部
+      shared 跨部门通用
+      pages 核心页面
+      relations 引用关系
     🚀 横向专项
       进行中
       已完成归档
@@ -420,12 +422,12 @@ mindmap
       <div class="zone-tag">ZONE 04</div>
       <div class="zone-emoji">🏗</div>
       <h3 class="zone-title">产品架构</h3>
-      <div class="zone-scenario">"我要看业务结构 / 场域 / 组件复用关系"</div>
+      <div class="zone-scenario">"我做组件 / 找业务结构 / 看复用关系"(业务线设计师主战场)</div>
       <ul class="zone-children">
-        <li><span><span class="child-label">业务线地图</span> <span class="child-desc">5 大业务的全景</span></span></li>
-        <li><span><span class="child-label">场域×组件矩阵</span> <span class="child-desc">每个场域有哪些组件</span></span></li>
-        <li><span><span class="child-label">核心页面</span> <span class="child-desc">详情 / 搜索 / 个人中心 等主干</span></span></li>
-        <li><span><span class="child-label">引用关系</span> <span class="child-desc">跨场域哪些组件复用</span></span></li>
+        <li><span><span class="child-label">domains/</span> <span class="child-desc">部门 → 业务 → 组件 三级结构 ★</span></span></li>
+        <li><span><span class="child-label">shared/</span> <span class="child-desc">跨部门通用组件 (有专门 owner)</span></span></li>
+        <li><span><span class="child-label">pages/</span> <span class="child-desc">详情 / 搜索 / 个人中心 等主干页面</span></span></li>
+        <li><span><span class="child-label">relations/</span> <span class="child-desc">跨部门复用 / 引用关系图</span></span></li>
       </ul>
     </div>
 
@@ -507,8 +509,8 @@ mindmap
 
   <!-- FOOTER -->
   <footer>
-    <div>v0.1 · 综合业务设计组 · Shaka 牵引</div>
-    <div>知识树先行 · META.md 待定 · 渗透到 Layer 3 待定</div>
+    <div>v0.2 · 综合业务设计组 · Shaka 牵引</div>
+    <div>配套阅读: <a href="./jd-design-wiki-master-diagram.html" style="color:var(--accent);text-decoration:none">架构大图</a> · <a href="./jd-design-wiki-contributor-guide.html" style="color:var(--accent);text-decoration:none">贡献指南</a></div>
   </footer>
 
 </div>

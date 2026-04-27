@@ -1,63 +1,93 @@
 # JD Design Wiki · AI-Ready Upgrade Proposal
 
-京东设计 wiki 在 AI 时代的升级方案与路线图。
+京东设计 wiki 在 AI 时代的升级方案、知识树、贡献指南、架构大图。
 
-**不是建一套新的设计系统，是让已有的 wiki 真正被用起来**——在组织协作、AI 消费、工具链打通三个维度上升级。
+> **不是建一套新的设计系统，是让已有的 wiki 真正被用起来**——在组织协作、AI 消费、工具链打通三个维度上升级。
 
 ---
 
-## 核心产出
+## 三份 HTML · 各取所需
 
-| 文件 | 用途 | 适合谁看 |
+| 文件 | 用途 | 谁看 |
 |---|---|---|
-| [`jd-design-wiki-buildup-plan.html`](./jd-design-wiki-buildup-plan.html) | **5 步路线 HTML 报告**（Bento 深色风格，7 页 scroll-snap） | **推荐先看** · 给老板 / 评审演讲 |
-| [`jd-design-os-proposal.md`](./jd-design-os-proposal.md) | **完整战略方案**（约 4500 字，含 6 个附录） | 深度阅读 / 团队 review |
-| [`one-page-jd-design-os.html`](./one-page-jd-design-os.html) | 一页纸说人话 · 一屏看完定位 | 快速讲清楚 "what + why" |
-| [`one-slide-jd-content-card.html`](./one-slide-jd-content-card.html) | **双列卡专项** one-slide（v0.1 样本）| 讲"我们已经做过什么" |
-| [`research/design-system-benchmarks.md`](./research/design-system-benchmarks.md) | 主流设计系统对标调研（Material / Polaris / Atlassian / Carbon / Vercel）| 方案底稿 |
-| [`research/ai-skill-frameworks.md`](./research/ai-skill-frameworks.md) | AI Skill 生态调研（Claude Skills / Vercel CLI / Stitch / MCP）| 方案底稿 |
+| **[`jd-design-wiki-master-diagram.html`](./jd-design-wiki-master-diagram.html)** | **架构大图 · 演讲用**（首屏单图 + Deep Dive 5 大 Zone + 10 个 md 模板） | 老板 / 评审 / 跨部门同事 |
+| **[`jd-design-wiki-knowledge-tree.html`](./jd-design-wiki-knowledge-tree.html)** | **知识树 · 顶层导航**（5 大 Zone + 二级目录 + 角色 owner） | 全员 |
+| **[`jd-design-wiki-contributor-guide.html`](./jd-design-wiki-contributor-guide.html)** | **贡献指南 · 执行手册**（5 步流程 + 维度边界 + multi-md 文件结构） | 业务线设计师 |
+
+**配套战略文档**：[`jd-design-os-proposal.md`](./jd-design-os-proposal.md) — 4500 字完整方案 + 6 个附录（外部标杆调研 + 实施路径）
 
 ---
 
-## 5 步路线（1 个月跑通 MVP）
+## 核心架构（30 秒看完）
 
-| Step | 内容 | 时间 |
-|---|---|---|
-| **01** | 录入 15.0 设计语言到 `foundations/*.md` | Week 1 |
-| **02** | 4 个角色的初始化模板（产品/用研/视觉/体验）| Week 1-2 |
-| **03** | 2-3 场域试点 · 自下而上（Token→组件→核心页面→细拆）| Week 2-3 |
-| **04** | Figma + Zero 打通 POC | Week 3 |
-| **05** | AI 工具自动化消费 POC | Week 4 |
-| **MVP** | 月底 · 跑通完整路径 + 标杆样本 + 汇报 | 月底 |
+```
+京东 Design Wiki
+│
+├── 📚 Design 知识        知识/研究/案例(按部门切)
+├── 🎨 Design 基础        Token / 原子组件(全公司共用)
+├── 🤖 AI 机制            Skill / 协议 / Agent 守则
+├── 🏗 产品架构 ★         部门 → 业务 → 组件目录(业务线设计师主战场)
+└── 🚀 横向专项           跨部门治理 / 反哺机制
+```
+
+**业务线设计师的产出 = 一个组件目录 = multi-md 文件结构**：
+
+```
+{组件}/
+├── README.md      概述 + Meta
+├── business.md    PM 写
+├── research.md    用研写 ★
+├── experience.md  体验设计师写 ★
+├── visual.md      视觉设计师写 ★
+├── interaction.md 交互写
+├── content.md     内容运营写
+├── donts.md       协作收集
+├── ai-schema.md   AI 消费字段
+├── CHANGELOG.md   自动生成
+├── variants/      变体案例
+└── examples/      示例资源
+```
 
 ---
 
-## 背景资产
+## 推荐阅读顺序
 
-- **双列卡专项 Skill**（已开源）：https://github.com/ShuaiMXu/xxx/jd-double-column-card-skill
-  - v0.5.2 · 五大家族 DNA + 9 条 L1 规约 + 8 核心原则
-  - 22 个基线样式 + 家族识别决策树
-  - 本方案的 v0.0 样本（P1 会反推出 META Schema）
+### 给老板汇报（5 分钟）
+→ 打开 `jd-design-wiki-master-diagram.html`
+→ 按 **F11 全屏**讲第一屏架构图
+→ 按"↓ 向下滚动"展开 5 大 Zone 细节
+
+### 业务线设计师上手（10 分钟）
+→ 先看 `jd-design-wiki-knowledge-tree.html` 找到"我归到哪个 Zone"
+→ 再看 `jd-design-wiki-contributor-guide.html` 知道"怎么写"
+→ 点击文件名跳转到 `master-diagram.html` 的 Templates 章节看具体模板
+
+### 深度方案研读（30 分钟）
+→ `jd-design-os-proposal.md` 完整战略方案
 
 ---
 
-## 如何使用这份资料
+## 三份 HTML 的内在关系
 
-### 给老板汇报（2 分钟）
-→ 打开 `one-page-jd-design-os.html` · 一屏讲清楚 WHY + WHAT
+```
+master-diagram.html (含 Templates)
+        ↑ 跨文件锚点跳转
+contributor-guide.html (md 文件名 → master-diagram#tpl-xxx)
+        ↕ footer 互链
+knowledge-tree.html (顶层导航)
+```
 
-### 给评审委员会（10-15 分钟）
-→ 打开 `jd-design-wiki-buildup-plan.html` · 按 5 个 Step 页讲下来
-
-### 深度方案阅读
-→ `jd-design-os-proposal.md` · 完整 4500 字方案 + 6 个附录
-
-### 方案底稿查询
-→ `research/` 下两份调研
+任何一个文件打开，都能在 footer 找到另两个的入口。
 
 ---
 
 ## 状态
 
-**v0.3 · 内部已授权推进**
+**v0.4 · 内部已授权推进**
 **牵引**：综合业务设计组 · Shaka
+
+**P1 阶段** (1 个月内):
+- Week 1-2: 录入 15.0 设计语言到 foundations/ + 建角色模板
+- Week 2-3: 2-3 场域试点（按部门-业务-组件三级结构）
+- Week 3-4: Figma + Zero 打通 POC + AI Skill 自动化 POC
+- 月底: MVP 完成，决定是否规模化
