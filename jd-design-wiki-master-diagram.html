@@ -588,6 +588,38 @@ footer {
 }
 .tpl-back:hover { text-decoration: underline; }
 
+/* ============ ZONE SWITCH (5 个 Zone 切换) ============ */
+.zone-card { cursor: pointer; user-select: none; }
+.zone-card.active {
+  background: linear-gradient(135deg, rgba(250,44,25,0.18) 0%, rgba(250,44,25,0.04) 100%);
+  border-color: rgba(250,44,25,0.5);
+  box-shadow: 0 0 30px rgba(250,44,25,0.15);
+}
+.zone-card.active .zone-num { color: var(--accent); }
+.zone-card.active .zone-arrow-down {
+  display: block;
+  color: var(--accent);
+  opacity: 1;
+  font-weight: 900;
+  font-size: 1.2rem;
+  bottom: -1.7rem;
+}
+.zone-card .zone-arrow-down { display: none; }
+.zone-card:not(.active) {
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.zone-card:not(.active) .zone-num { color: var(--muted); }
+
+/* zone-design-md 切换显示 */
+.zone-design-md { display: none; }
+.zone-design-md.active { display: block; }
+
+/* zone-tpls 切换显示 */
+.zone-tpls { display: none; }
+.zone-tpls.active { display: block; }
+
 /* RESPONSIVE for short viewports */
 @media (max-height: 800px) {
   .container { padding: clamp(1rem, 2vw, 1.6rem); gap: 0.5rem; }
@@ -621,38 +653,42 @@ footer {
       </div>
     </header>
 
-    <!-- 5 ZONES TOP ROW -->
+    <!-- 5 ZONES TOP ROW · 可点击切换 -->
     <div class="zones-row">
-      <div class="zone-card">
+      <div class="zone-card" data-zone="1" onclick="switchZone(1)">
         <div class="zone-emoji">📚</div>
         <div class="zone-num">ZONE 1</div>
         <h3 class="zone-name">Design 知识</h3>
         <div class="zone-desc">内部研究 / 通识原则 / 索引</div>
+        <div class="zone-arrow-down">▼</div>
       </div>
-      <div class="zone-card">
+      <div class="zone-card" data-zone="2" onclick="switchZone(2)">
         <div class="zone-emoji">🎨</div>
         <div class="zone-num">ZONE 2</div>
         <h3 class="zone-name">Design 基础</h3>
         <div class="zone-desc">Token / 原子组件 / 系统原则</div>
+        <div class="zone-arrow-down">▼</div>
       </div>
-      <div class="zone-card">
+      <div class="zone-card" data-zone="3" onclick="switchZone(3)">
         <div class="zone-emoji">🤖</div>
         <div class="zone-num">ZONE 3</div>
         <h3 class="zone-name">AI 机制</h3>
         <div class="zone-desc">Skill / META / 协议 / 守则</div>
+        <div class="zone-arrow-down">▼</div>
       </div>
-      <div class="zone-card focal">
+      <div class="zone-card active" data-zone="4" onclick="switchZone(4)">
         <div class="zone-emoji">🏗</div>
         <div class="zone-num">ZONE 4 ★ 主战场</div>
         <h3 class="zone-name">产品架构</h3>
-        <div class="zone-desc">部门 → 业务 → 组件 DESIGN.md</div>
+        <div class="zone-desc">部门 → 业务 → 组件目录</div>
         <div class="zone-arrow-down">▼</div>
       </div>
-      <div class="zone-card">
+      <div class="zone-card" data-zone="5" onclick="switchZone(5)">
         <div class="zone-emoji">🚀</div>
         <div class="zone-num">ZONE 5</div>
         <h3 class="zone-name">横向专项</h3>
         <div class="zone-desc">跨部门治理 / 协议 / 反哺</div>
+        <div class="zone-arrow-down">▼</div>
       </div>
     </div>
 
@@ -671,8 +707,54 @@ footer {
         </div>
       </div>
 
-      <!-- CENTRAL Component Directory CARD -->
-      <div class="design-md">
+      <!-- CENTRAL CARDS · 5 个 Zone,默认 Zone 4 active -->
+
+      <!-- Zone 1 · 📚 Design 知识 -->
+      <div class="design-md zone-design-md" data-zone="1">
+        <div class="design-md-head">
+          <div class="design-md-title">{知识文档}/<span class="ext">  知识库</span></div>
+          <div class="design-md-meta">multi-format · 知识/研究/案例 · 按类型分独立 md ↓</div>
+        </div>
+        <div class="segs">
+          <a href="#tpl-1-research" class="seg dim"><span class="seg-num">📄</span><span class="seg-name">research-report.md</span><span class="seg-role">用研 ★</span></a>
+          <a href="#tpl-1-case" class="seg"><span class="seg-num">📄</span><span class="seg-name">case-study.md</span><span class="seg-role">资深设计师</span></a>
+          <a href="#tpl-1-adr" class="seg"><span class="seg-num">📄</span><span class="seg-name">adr.md</span><span class="seg-role">owner</span></a>
+          <a href="#tpl-1-note" class="seg"><span class="seg-num">📄</span><span class="seg-name">note.md</span><span class="seg-role">任何设计师</span></a>
+          <a href="#tpl-1-principle" class="seg"><span class="seg-num">📄</span><span class="seg-name">principle.md</span><span class="seg-role">资深/委员会</span></a>
+        </div>
+      </div>
+
+      <!-- Zone 2 · 🎨 Design 基础 -->
+      <div class="design-md zone-design-md" data-zone="2">
+        <div class="design-md-head">
+          <div class="design-md-title">{基础规范}/<span class="ext">  Foundation</span></div>
+          <div class="design-md-meta">Token / 原子组件 / 系统原则 · 全公司公共 ↓</div>
+        </div>
+        <div class="segs">
+          <a href="#tpl-2-token" class="seg dim"><span class="seg-num">📄</span><span class="seg-name">token.md</span><span class="seg-role">视觉负责人 ★</span></a>
+          <a href="#tpl-2-atom" class="seg"><span class="seg-num">📄</span><span class="seg-name">atom.md</span><span class="seg-role">基础组件 owner</span></a>
+          <a href="#tpl-2-principle" class="seg"><span class="seg-num">📄</span><span class="seg-name">system-principle.md</span><span class="seg-role">视觉总监</span></a>
+          <a href="#tpl-2-migration" class="seg"><span class="seg-num">📄</span><span class="seg-name">migration.md</span><span class="seg-role">视觉团队</span></a>
+        </div>
+      </div>
+
+      <!-- Zone 3 · 🤖 AI 机制 -->
+      <div class="design-md zone-design-md" data-zone="3">
+        <div class="design-md-head">
+          <div class="design-md-title">{AI 资产}/<span class="ext">  AI Layer</span></div>
+          <div class="design-md-meta">Skill / 协议 / 守则 · agentskills.io 标准 ↓</div>
+        </div>
+        <div class="segs">
+          <a href="#tpl-3-skill" class="seg dim"><span class="seg-num">📄</span><span class="seg-name">SKILL.md</span><span class="seg-role">AI 团队 ★</span></a>
+          <a href="#tpl-3-protocol" class="seg"><span class="seg-num">📄</span><span class="seg-name">protocol.md</span><span class="seg-role">AI 团队</span></a>
+          <a href="#tpl-3-guard" class="seg"><span class="seg-num">📄</span><span class="seg-name">guard.md</span><span class="seg-role">系统 maintainer</span></a>
+          <a href="#tpl-3-meta" class="seg"><span class="seg-num">📄</span><span class="seg-name">meta-rule.md</span><span class="seg-role">委员会</span></a>
+          <a href="#tpl-3-registry" class="seg"><span class="seg-num">📄</span><span class="seg-name">registry-entry.md</span><span class="seg-role">自动</span></a>
+        </div>
+      </div>
+
+      <!-- Zone 4 · 🏗 产品架构(默认 active) -->
+      <div class="design-md zone-design-md active" data-zone="4">
         <div class="design-md-head">
           <div class="design-md-title">{组件}/<span class="ext">  组件目录</span></div>
           <div class="design-md-meta">multi-md · 文件级独立 · 点击查看模板 ↓</div>
@@ -688,6 +770,21 @@ footer {
           <a href="#tpl-donts" class="seg"><span class="seg-num">📄</span><span class="seg-name">donts.md</span><span class="seg-role">协作</span></a>
           <a href="#tpl-ai-schema" class="seg"><span class="seg-num">📄</span><span class="seg-name">ai-schema.md</span><span class="seg-role">owner</span></a>
           <a href="#tpl-changelog" class="seg"><span class="seg-num">📄</span><span class="seg-name">CHANGELOG.md</span><span class="seg-role">自动</span></a>
+        </div>
+      </div>
+
+      <!-- Zone 5 · 🚀 横向专项 -->
+      <div class="design-md zone-design-md" data-zone="5">
+        <div class="design-md-head">
+          <div class="design-md-title">{专项}/<span class="ext">  治理项目</span></div>
+          <div class="design-md-meta">立项/设计语言/决策/反哺 · 跨部门治理 ↓</div>
+        </div>
+        <div class="segs">
+          <a href="#tpl-5-proposal" class="seg dim"><span class="seg-num">📄</span><span class="seg-name">proposal.md</span><span class="seg-role">发起人 ★</span></a>
+          <a href="#tpl-5-readme" class="seg"><span class="seg-num">📄</span><span class="seg-name">README.md</span><span class="seg-role">专项 owner</span></a>
+          <a href="#tpl-5-design" class="seg"><span class="seg-num">📄</span><span class="seg-name">design-language.md</span><span class="seg-role">体验/视觉</span></a>
+          <a href="#tpl-5-adr" class="seg"><span class="seg-num">📄</span><span class="seg-name">adr.md</span><span class="seg-role">委员会</span></a>
+          <a href="#tpl-5-handoff" class="seg"><span class="seg-num">📄</span><span class="seg-name">handoff.md</span><span class="seg-role">专项 owner</span></a>
         </div>
       </div>
 
@@ -976,10 +1073,13 @@ footer {
     <!-- ============ TEMPLATES SECTION ============ -->
     <div class="tpl-section">
       <div class="deep-section-head" style="margin-top:0">
-        <div class="deep-eyebrow">TEMPLATES · 10 个 md 文件模板</div>
+        <div class="deep-eyebrow" id="tpl-eyebrow">TEMPLATES · ZONE 4 · 10 个 md 文件模板</div>
         <h2 class="deep-title">每个 md <span class="accent">怎么写</span></h2>
-        <p class="deep-desc">点击上面任意文件名跳转到这里。每个 md 都有:角色、用途、字段、示范填写。</p>
+        <p class="deep-desc">点击上面任意 Zone 卡 → 中央卡和这里的模板会切换到对应 Zone。每个 md 都有:角色、用途、字段、示范填写。</p>
       </div>
+
+      <!-- ============ Zone 4 · 产品架构(默认 active)============ -->
+      <div class="zone-tpls active" data-zone="4">
 
       <!-- README.md -->
       <div class="tpl-card" id="tpl-readme">
@@ -1278,10 +1378,620 @@ footer {
         <a href="#" class="tpl-back">↑ 返回主图</a>
       </div>
 
+      </div><!-- /zone 4 tpls -->
+
+      <!-- ============ Zone 1 · 📚 Design 知识 ============ -->
+      <div class="zone-tpls" data-zone="1">
+
+      <div class="tpl-card dim" id="tpl-1-research">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>research-report.md</div>
+          <span class="tpl-role-pill feat">用研团队 ★</span>
+        </div>
+        <div class="tpl-purpose">用研报告 — 一次完整的用户研究产出。问题 → 方法 → 受访者 → 发现 → 结论。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>study_question</code> 研究问题</div>
+          <div class="tpl-field"><code>methodology</code> 研究方法</div>
+          <div class="tpl-field"><code>participants</code> 受访者画像</div>
+          <div class="tpl-field"><code>findings</code> 关键发现</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 用户视频消费习惯调研 - 2026 Q2</span>
+
+## 研究问题
+用户在短视频流中如何识别"这是不是我要看的视频"?
+
+## 方法
+- 用户访谈 (n=30)
+- 行为日志分析 (n=10000)
+- 眼动追踪 (n=5)
+
+## 关键发现
+1. 用户平均 0.8 秒决定是否点击 (P95)
+2. 封面缩略图 + 标题前 12 字决定 90% 的判断
+3. 跨场景跳转后,识别时间 +35%</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-1-case">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>case-study.md</div>
+          <span class="tpl-role-pill">资深设计师</span>
+        </div>
+        <div class="tpl-purpose">案例研究 — 一次设计实践的复盘。背景 → 挑战 → 方案 → 结果 → 反思。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>context</code> 业务背景</div>
+          <div class="tpl-field"><code>challenge</code> 设计挑战</div>
+          <div class="tpl-field"><code>solution</code> 采取方案</div>
+          <div class="tpl-field"><code>outcome</code> 量化结果</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 双列卡治理案例</span>
+
+## 背景
+6 个业务线各自迭代双列卡,体验割裂。
+
+## 挑战
+跨业务统一识别 + 各业务线独特性如何平衡。
+
+## 方案
+"五大家族 + 跨场景同物种"治理模型。
+
+## 结果 (3 个月)
+- CTR +12%
+- 设计师 onboarding 时间缩短 40%
+- AI 工具识别准确率 95% → 99%</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-1-adr">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>adr.md</div>
+          <span class="tpl-role-pill">owner</span>
+        </div>
+        <div class="tpl-purpose">决策记录 (Architecture Decision Record) — 重要决策留痕,可追溯。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>status</code> proposed/accepted/deprecated</div>
+          <div class="tpl-field"><code>context</code> 决策背景</div>
+          <div class="tpl-field"><code>decision</code> 决策内容</div>
+          <div class="tpl-field"><code>consequences</code> 影响和权衡</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># ADR-001: 采用五大家族体系</span>
+
+## Status
+Accepted (2026-04-15)
+
+## Context
+组件治理需要平衡"业务多样性"和"用户认知一致性"。
+
+## Decision
+按"商业/内容/圈子/点评/新品"5 个家族切分,每个家族有独特 DNA。
+
+## Consequences
++ 新人 onboarding 心智模型清晰
++ AI 识别准确度提升
+- 边界场景需要明确归属规则</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-1-note">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>note.md</div>
+          <span class="tpl-role-pill">任何设计师</span>
+        </div>
+        <div class="tpl-purpose">设计师笔记 — 个人观察/灵感/想法。自由格式,不强求结构。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>topic</code> 笔记主题</div>
+          <div class="tpl-field"><code>observations</code> 个人观察</div>
+          <div class="tpl-field"><code>open_questions</code> 待解决问题</div>
+          <div class="tpl-field"><code>tags</code> 标签 (便于检索)</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 关于卡片留白节奏的观察</span>
+
+刷小红书时注意到:
+- 标题与封面之间留白 8px,非 16px
+- 但他们的字号比我们大 1px
+
+我们是不是也可以试试?
+
+## Tags
+#留白 #节奏 #小红书</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-1-principle">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>principle.md</div>
+          <span class="tpl-role-pill">资深 / 委员会</span>
+        </div>
+        <div class="tpl-purpose">通识设计原则 — 提炼一条可复用的设计原则,带正反例。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>principle</code> 一句话原则</div>
+          <div class="tpl-field"><code>rationale</code> 为什么</div>
+          <div class="tpl-field"><code>examples</code> 正例</div>
+          <div class="tpl-field"><code>anti_examples</code> 反例</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 跨场景同物种识别</span>
+
+## 原则
+同一个组件,在不同场景中,用户应能在 0.5 秒内识别为"同一物种"。
+
+## 为什么
+- 减少认知切换成本
+- 强化品牌一致性
+- 让 AI 工具能准确归类
+
+## 正例
+✓ 双列卡的家族 DNA 在所有场景一致
+
+## 反例
+✗ 推荐场景的卡片使用红色 CTA,点评场景用蓝色 CTA</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      </div><!-- /zone 1 tpls -->
+
+      <!-- ============ Zone 2 · 🎨 Design 基础 ============ -->
+      <div class="zone-tpls" data-zone="2">
+
+      <div class="tpl-card dim" id="tpl-2-token">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>token.md</div>
+          <span class="tpl-role-pill feat">视觉负责人 ★</span>
+        </div>
+        <div class="tpl-purpose">一种 Token 的定义 — 名称、值、适用范围、设计依据。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>name</code> Token 名称</div>
+          <div class="tpl-field"><code>value</code> 具体值 (含 W3C DTCG 格式)</div>
+          <div class="tpl-field"><code>scope</code> 适用范围</div>
+          <div class="tpl-field"><code>rationale</code> 选择依据</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># color-brand-primary</span>
+
+<span class="ex-key">name</span>: <span class="ex-str">color.brand.primary</span>
+<span class="ex-key">value</span>: <span class="ex-str">"#fa2c19"</span>
+<span class="ex-key">type</span>: <span class="ex-str">color</span>
+<span class="ex-key">scope</span>: 全局品牌色,所有 CTA / accent / focal element
+
+<span class="ex-key">rationale</span>:
+- 京东品牌色,品牌识别度 95%
+- 在白底/深底对比度均达到 WCAG AA
+- 与 15.0 之前版本兼容
+
+<span class="ex-key">deprecated</span>: <span class="ex-str">false</span></div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-2-atom">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>atom.md</div>
+          <span class="tpl-role-pill">基础组件 owner</span>
+        </div>
+        <div class="tpl-purpose">原子组件 — 一个不可再分的基础组件,如 button/icon/input。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>name</code> 组件名</div>
+          <div class="tpl-field"><code>variants</code> 变体清单</div>
+          <div class="tpl-field"><code>states</code> 状态(default/hover/active/disabled)</div>
+          <div class="tpl-field"><code>usage</code> 使用规则</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># Button</span>
+
+## 变体
+- primary    主要操作 (CTA)
+- secondary  次要操作
+- ghost      第三级操作
+- destructive 危险操作
+
+## 状态
+- default → hover → active → disabled
+- loading 状态(异步操作)
+
+## 使用规则
+- 一个页面 ≤ 1 个 primary button
+- destructive 必须配二次确认
+- ghost 不应嵌套使用</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-2-principle">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>system-principle.md</div>
+          <span class="tpl-role-pill">视觉总监 / 委员会</span>
+        </div>
+        <div class="tpl-purpose">系统级原则 — 跨组件适用的设计原则,如可访问性 / 响应式。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>principle</code> 一句话原则</div>
+          <div class="tpl-field"><code>when_to_apply</code> 何时适用</div>
+          <div class="tpl-field"><code>examples</code> 应用示例</div>
+          <div class="tpl-field"><code>compliance</code> 合规要求</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 可访问性优先 (Accessibility First)</span>
+
+## 原则
+所有组件默认满足 WCAG 2.1 AA,不依赖后续补丁。
+
+## 何时适用
+- 新组件设计
+- 现有组件迭代
+
+## 示例
+- 文字对比度 ≥ 4.5:1
+- 交互区域 ≥ 44x44px
+- 所有图标必有 aria-label
+
+## 合规要求
+PR 必须通过自动化 a11y 测试才能合并。</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-2-migration">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>migration.md</div>
+          <span class="tpl-role-pill">视觉团队</span>
+        </div>
+        <div class="tpl-purpose">15.0 迁移记录 — 从旧版本迁移到新版本的变更说明。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>from_version</code> 起始版本</div>
+          <div class="tpl-field"><code>to_version</code> 目标版本</div>
+          <div class="tpl-field"><code>breaking_changes</code> 破坏性变更</div>
+          <div class="tpl-field"><code>migration_path</code> 迁移路径</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 14.x → 15.0 Token 迁移</span>
+
+## 破坏性变更
+- spacing 阶梯从 4-base → 8-base
+- color-brand 从 #e1251b → #fa2c19
+- font-stack 删除回退到系统字体
+
+## 迁移路径
+1. Token 自动替换工具: scripts/migrate-tokens.js
+2. 受影响组件: 全部 (兼容期 30 天)
+3. 视觉 review: 新版样式回归测试</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      </div><!-- /zone 2 tpls -->
+
+      <!-- ============ Zone 3 · 🤖 AI 机制 ============ -->
+      <div class="zone-tpls" data-zone="3">
+
+      <div class="tpl-card dim" id="tpl-3-skill">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>SKILL.md</div>
+          <span class="tpl-role-pill feat">AI 团队 ★</span>
+        </div>
+        <div class="tpl-purpose">一个 Skill 定义 — 按 agentskills.io 标准,给 AI agent 消费。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>name</code> Skill 名称</div>
+          <div class="tpl-field"><code>description</code> 功能描述</div>
+          <div class="tpl-field"><code>allowed-tools</code> 允许的工具</div>
+          <div class="tpl-field"><code>instructions</code> 行为指令</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment">--- frontmatter ---</span>
+<span class="ex-key">name</span>: <span class="ex-str">double-column-card</span>
+<span class="ex-key">description</span>: <span class="ex-str">京东双列卡识别和评估</span>
+<span class="ex-key">allowed-tools</span>: [<span class="ex-str">Read, Grep</span>]
+<span class="ex-key">version</span>: <span class="ex-str">1.0.0</span>
+<span class="ex-comment">--- end ---</span>
+
+<span class="ex-comment"># 双列卡 Skill</span>
+
+## 触发条件
+当用户提到"双列卡"/"内容卡"时激活。
+
+## 核心能力
+1. 识别卡片所属的家族(5 大家族)
+2. 评估变体合理性
+3. 输出"跨场景同物种识别"判断</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-3-protocol">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>protocol.md</div>
+          <span class="tpl-role-pill">AI 团队</span>
+        </div>
+        <div class="tpl-purpose">工具接入协议 — 如何让 Figma / Cursor / v0 等工具消费京东设计系统。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>tool</code> 工具名称</div>
+          <div class="tpl-field"><code>version</code> 兼容版本</div>
+          <div class="tpl-field"><code>interface</code> 接入接口</div>
+          <div class="tpl-field"><code>examples</code> 调用示例</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># Figma AI 接入协议</span>
+
+## 工具
+Figma Desktop App ≥ 124.0
+
+## 接入方式
+1. 安装 JD Design Plugin (内部分发)
+2. 在 Figma 内打开 wiki sidebar
+3. 自动同步当前 Token 库
+
+## 调用示例
+- 选中元素 → 右键 → "Apply JD Token"
+- AI 推荐 → 列出 5 个合规变体</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-3-guard">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>guard.md</div>
+          <span class="tpl-role-pill">系统 maintainer</span>
+        </div>
+        <div class="tpl-purpose">Agent 守则 — agent 行为约束,防止"AI slop"或越界。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>name</code> 守则名</div>
+          <div class="tpl-field"><code>when_to_apply</code> 何时启用</div>
+          <div class="tpl-field"><code>behavior</code> 期望行为</div>
+          <div class="tpl-field"><code>rationale</code> 设立依据</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 反 AI slop 守则</span>
+
+## 何时启用
+所有生成视觉资产的 agent。
+
+## 期望行为
+- 拒绝默认 stock photo
+- 禁止 lorem ipsum 占位文本
+- 禁止默认渐变 / 默认阴影
+
+## 设立依据
+"AI slop"会让团队丧失对生成质量的信任,
+长期会让 wiki 沦为 AI 垃圾场。</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-3-meta">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>meta-rule.md</div>
+          <span class="tpl-role-pill">AI 总监 / 委员会</span>
+        </div>
+        <div class="tpl-purpose">元规范条目 — 跨 Skill 的元级规则,如版本协议 / 安全协议。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>rule</code> 规则一句话</div>
+          <div class="tpl-field"><code>why</code> 为什么</div>
+          <div class="tpl-field"><code>how_to_apply</code> 如何应用</div>
+          <div class="tpl-field"><code>scope</code> 适用范围</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 自检环路</span>
+
+## 规则
+所有 agent 在输出前,必须经过 fork_verifier 自检。
+
+## 为什么
+- 防止单点错误传播
+- 提高可靠性
+
+## 如何应用
+- agent 输出 → fork 子 agent 验证 → 主 agent 整合
+- 验证失败 → 重新生成 (最多 3 次)
+
+## 适用范围
+所有可能影响线上数据的 agent。</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-3-registry">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>registry-entry.md</div>
+          <span class="tpl-role-pill">自动生成</span>
+        </div>
+        <div class="tpl-purpose">Skill registry 条目 — 自动从 SKILL.md 提取的索引信息。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>skill_id</code> Skill 唯一 ID</div>
+          <div class="tpl-field"><code>version</code> 版本</div>
+          <div class="tpl-field"><code>status</code> 状态</div>
+          <div class="tpl-field"><code>consumers</code> 已接入的工具</div>
+        </div>
+        <div class="tpl-example"><span class="ex-key">skill_id</span>: <span class="ex-str">double-column-card</span>
+<span class="ex-key">version</span>: <span class="ex-str">1.2.0</span>
+<span class="ex-key">status</span>: <span class="ex-str">stable</span>
+<span class="ex-key">last_updated</span>: <span class="ex-str">2026-04-27</span>
+
+<span class="ex-key">consumers</span>:
+  - <span class="ex-str">claude-code v2.5+</span>
+  - <span class="ex-str">cursor v0.42+</span>
+  - <span class="ex-str">figma-plugin v1.0</span>
+
+<span class="ex-key">stats</span>:
+  <span class="ex-key">invocations_30d</span>: <span class="ex-str">12345</span>
+  <span class="ex-key">accuracy</span>: <span class="ex-str">98.7%</span></div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      </div><!-- /zone 3 tpls -->
+
+      <!-- ============ Zone 5 · 🚀 横向专项 ============ -->
+      <div class="zone-tpls" data-zone="5">
+
+      <div class="tpl-card dim" id="tpl-5-proposal">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>proposal.md</div>
+          <span class="tpl-role-pill feat">专项发起人 ★</span>
+        </div>
+        <div class="tpl-purpose">立项方案 — 专项启动时提交。问题 → 假设 → 成功标准 → sponsor。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>scope</code> 治理范围</div>
+          <div class="tpl-field"><code>problem</code> 解决什么问题</div>
+          <div class="tpl-field"><code>hypothesis</code> 治理假设</div>
+          <div class="tpl-field"><code>success_criteria</code> 成功标准</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 双列卡治理专项 - 立项方案</span>
+
+## 范围
+全 6 业务线的双列卡组件。
+
+## 问题
+各业务线独立迭代,体验割裂,
+设计师 onboarding 高,AI 工具难统一识别。
+
+## 假设
+建立"5 家族 + 跨场景同物种"模型可统一,
+预计 CTR +10%,onboarding 时间 -30%。
+
+## 成功标准
+- CTR ≥ +5% (3 个月)
+- 跨业务复用率 ≥ 60%
+- AI 识别准确率 ≥ 95%
+
+## Sponsor
+设计总监 + 各业务线 Owner</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-5-readme">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>README.md</div>
+          <span class="tpl-role-pill">专项 owner</span>
+        </div>
+        <div class="tpl-purpose">专项概述 — 整个专项目录的入口,状态/时间线/参与方。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>status</code> active/completed/archived</div>
+          <div class="tpl-field"><code>timeline</code> 关键节点</div>
+          <div class="tpl-field"><code>participants</code> 参与方</div>
+          <div class="tpl-field"><code>goals</code> 当前目标</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 双列卡治理专项</span>
+
+## 状态
+🟢 Active (Phase 2: 落地)
+
+## 时间线
+- 2026-01: 立项 ✓
+- 2026-02: 设计语言定稿 ✓
+- 2026-03-04: 跨业务推广 (进行中)
+- 2026-05: 全量上线
+
+## 参与方
+- 主导: 综合业务设计组 (Shaka)
+- 参与: 推荐 / 点评 / 直播 / 圈子 / 新品 / 个人中心</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-5-design">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>design-language.md</div>
+          <span class="tpl-role-pill">体验 / 视觉设计师</span>
+        </div>
+        <div class="tpl-purpose">专项设计语言 — 治理产出的核心:原则 + 家族 DNA + 变体评估。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>principles</code> 设计原则</div>
+          <div class="tpl-field"><code>family_dna</code> 家族 DNA 不变量</div>
+          <div class="tpl-field"><code>variant_evaluation</code> 变体评估标准</div>
+          <div class="tpl-field"><code>cross_context_id</code> 跨场景识别</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 双列卡设计语言 v1.2</span>
+
+## 5 大家族
+- 商业 / 内容 / 圈子 / 点评 / 新品
+
+## 家族 DNA (不变量)
+| 家族 | 标志元素 | 行为模式 |
+|---|---|---|
+| 商业 | 价格/CTA | 直接转化 |
+| 内容 | 封面/标题 | 浏览消费 |
+
+## 变体评估
+新增变体须满足:
+- DNA 完整性 (3/3)
+- 跨场景同物种 (用户测试 ≥ 90%)</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-5-adr">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>adr.md</div>
+          <span class="tpl-role-pill">委员会</span>
+        </div>
+        <div class="tpl-purpose">专项决策记录 — 治理过程中的重大决策留痕。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>status</code> proposed/accepted/deprecated</div>
+          <div class="tpl-field"><code>context</code> 决策背景</div>
+          <div class="tpl-field"><code>decision</code> 决策内容</div>
+          <div class="tpl-field"><code>consequences</code> 影响</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># ADR-007: 圈子家族独立 vs 合并到内容</span>
+
+## Status
+Accepted (2026-03-15)
+
+## Context
+圈子卡是否应该独立成 1 个家族?
+- 圈子有独特互动机制 (关注/打赏)
+- 内容家族已经过载
+
+## Decision
+独立成"圈子家族",有自己的 DNA。
+
+## Consequences
++ 治理粒度更精细
++ 圈子运营有专属设计语言
+- 跨家族转换成本(用户从内容→圈子)增加</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      <div class="tpl-card" id="tpl-5-handoff">
+        <div class="tpl-head">
+          <div class="tpl-name"><span class="file-emoji">📄</span>handoff.md</div>
+          <span class="tpl-role-pill">专项 owner</span>
+        </div>
+        <div class="tpl-purpose">反哺接口 — 专项产出如何回流到其他 Zone(基础/AI 机制等)。</div>
+        <div class="tpl-fields">
+          <div class="tpl-field"><code>outputs</code> 专项产出清单</div>
+          <div class="tpl-field"><code>target_zone</code> 反哺到哪个 Zone</div>
+          <div class="tpl-field"><code>migration_path</code> 迁移路径</div>
+          <div class="tpl-field"><code>owner_after</code> 反哺后的 owner</div>
+        </div>
+        <div class="tpl-example"><span class="ex-comment"># 双列卡专项 - 反哺接口</span>
+
+## 产出 → 目标 Zone
+
+| 产出 | 反哺到 | 路径 |
+|---|---|---|
+| 5 家族 DNA | 📚 知识 - principle | wisdom/families.md |
+| 卡片基础 token | 🎨 基础 - foundation | foundations/card.md |
+| 双列卡 SKILL | 🤖 AI 机制 - skills | skills/double-column-card/ |
+
+## 反哺后 owner
+- principle: 设计委员会
+- foundation: 视觉负责人
+- skill: AI 团队</div>
+        <a href="#" class="tpl-back">↑ 返回主图</a>
+      </div>
+
+      </div><!-- /zone 5 tpls -->
+
     </div>
 
   </div>
 </div>
+
+<!-- ============ ZONE SWITCH JS ============ -->
+<script>
+function switchZone(n) {
+  // 切换 Zone 卡 active 状态
+  document.querySelectorAll('.zone-card[data-zone]').forEach(c => {
+    c.classList.toggle('active', c.dataset.zone === String(n));
+  });
+  // 切换 中央卡 显示
+  document.querySelectorAll('.zone-design-md').forEach(d => {
+    d.classList.toggle('active', d.dataset.zone === String(n));
+  });
+  // 切换 Templates 显示
+  document.querySelectorAll('.zone-tpls').forEach(t => {
+    t.classList.toggle('active', t.dataset.zone === String(n));
+  });
+  // 更新 Templates 章节 eyebrow
+  const labels = {
+    1: 'TEMPLATES · ZONE 1 · 5 种知识文档形态',
+    2: 'TEMPLATES · ZONE 2 · 4 种基础规范文档',
+    3: 'TEMPLATES · ZONE 3 · 5 种 AI 机制文档',
+    4: 'TEMPLATES · ZONE 4 · 10 个组件 md 文件',
+    5: 'TEMPLATES · ZONE 5 · 5 种专项治理文档'
+  };
+  const eyebrow = document.getElementById('tpl-eyebrow');
+  if (eyebrow && labels[n]) eyebrow.textContent = labels[n];
+}
+</script>
 
 </body>
 </html>
