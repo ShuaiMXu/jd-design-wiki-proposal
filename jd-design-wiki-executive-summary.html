@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JD Design Wiki · 给老板的 30 秒汇报</title>
+<style>
+:root {
+  --bg: #0a0a0c;
+  --ink: #f8f4ec;
+  --muted: #8b8680;
+  --line: rgba(248,244,236,0.08);
+  --accent: #fa2c19;
+  --accent-soft: rgba(250,44,25,0.12);
+  --accent-glow: rgba(250,44,25,0.25);
+  --surface: rgba(255,255,255,0.03);
+  --green: #4ade80;
+  --green-soft: rgba(74,222,128,0.12);
+  --warn: #f6ad55;
+  --warn-soft: rgba(246,173,85,0.12);
+}
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+}
+.glow-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60vw 60vh at 90% 0%, rgba(250,44,25,0.1), transparent 50%),
+    radial-gradient(ellipse 70vw 70vh at 10% 100%, rgba(250,44,25,0.05), transparent 60%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+  position: relative; z-index: 1;
+}
+
+/* HERO */
+header.page-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 2rem; margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.eyebrow {
+  font-size: 0.75rem; letter-spacing: 0.3em; color: var(--muted);
+  font-weight: 500; text-transform: uppercase; margin-bottom: 0.6em;
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+h1 {
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+h1 .accent {
+  background: linear-gradient(135deg, #fa2c19 0%, #ff8c69 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.subtitle {
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  color: rgba(248,244,236,0.7);
+  margin-top: 1.2rem;
+  max-width: 60ch;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.meta {
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.7;
+  font-family: "SF Mono", monospace;
+}
+
+/* SECTION COMMON */
+.section-block {
+  margin: clamp(2.5rem, 5vw, 4rem) 0;
+}
+.section-tag {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+.section-title .accent { color: var(--accent); }
+
+/* PAIN POINTS (痛点 4 卡) */
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: clamp(0.8rem, 1.5vw, 1.2rem);
+  margin: 1.5rem 0;
+}
+.pain-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--warn);
+  border-radius: 12px;
+  padding: clamp(1rem, 1.6vw, 1.4rem);
+}
+.pain-num {
+  font-family: "SF Mono", monospace;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--warn);
+  line-height: 1;
+  margin-bottom: 0.3em;
+}
+.pain-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 0.4em;
+  color: var(--ink);
+}
+.pain-desc {
+  font-size: 0.85rem;
+  color: rgba(248,244,236,0.7);
+  line-height: 1.5;
+}
+
+/* SOLUTION 3 PILLARS */
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(1rem, 2vw, 1.4rem);
+  margin: 1.5rem 0;
+}
+.pillar {
+  background: linear-gradient(135deg, rgba(250,44,25,0.08) 0%, rgba(0,0,0,0.3) 100%);
+  border: 1px solid rgba(250,44,25,0.3);
+  border-radius: 14px;
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  position: relative;
+}
+.pillar-icon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 0.6rem;
+}
+.pillar-num {
+  font-family: "SF Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.3em;
+}
+.pillar-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0 0 0.7em;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.pillar-desc {
+  font-size: 0.9rem;
+  color: rgba(248,244,236,0.85);
+  line-height: 1.6;
+}
+.pillar-desc strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* TIMELINE 3 PHASES */
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(1rem, 1.8vw, 1.4rem);
+  margin: 1.5rem 0;
+}
+.phase {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  position: relative;
+  overflow: hidden;
+}
+.phase.short { border-left: 3px solid var(--warn); }
+.phase.mid { border-left: 3px solid var(--accent); }
+.phase.long { border-left: 3px solid var(--green); }
+.phase-time {
+  font-family: "SF Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.4em;
+}
+.phase-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 0.8em;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.phase-result {
+  font-size: 0.88rem;
+  color: rgba(248,244,236,0.85);
+  line-height: 1.55;
+  margin-bottom: 0.8rem;
+}
+.phase-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: "SF Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--line);
+}
+.phase-metric .num {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+/* RESOURCES BAR */
+.resources {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: clamp(1rem, 2vw, 1.4rem);
+  margin: 1.5rem 0;
+}
+.resources-row {
+  display: grid;
+  grid-template-columns: clamp(120px, 14vw, 180px) 1fr;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px dashed var(--line);
+  align-items: center;
+}
+.resources-row:last-child { border-bottom: none; }
+.resources-label {
+  font-family: "SF Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.resources-text {
+  font-size: 0.92rem;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* CALL TO ACTION (核心金句) */
+.cta-block {
+  background: linear-gradient(135deg, rgba(250,44,25,0.18) 0%, rgba(250,44,25,0.04) 100%);
+  border: 2px solid rgba(250,44,25,0.5);
+  border-radius: 18px;
+  padding: clamp(1.8rem, 3vw, 2.4rem);
+  margin: clamp(2rem, 4vw, 3rem) 0;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(250,44,25,0.15);
+}
+.cta-text {
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.cta-text .accent {
+  background: linear-gradient(135deg, #fa2c19 0%, #ff8c69 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.cta-sub {
+  font-size: 0.95rem;
+  color: rgba(248,244,236,0.7);
+  margin-top: 0.8em;
+  font-weight: 400;
+}
+
+/* COMPETITIVE INSIGHT */
+.insight-block {
+  background: rgba(0,0,0,0.4);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  margin: 1.5rem 0;
+}
+.insight-label {
+  font-family: "SF Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+.insight-text {
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.insight-text strong { color: var(--accent); }
+
+/* FOOTER */
+footer {
+  margin-top: clamp(3rem, 6vw, 5rem);
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.02em;
+  font-family: "SF Mono", monospace;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 700px) {
+  header.page-head { flex-direction: column; }
+  .meta { text-align: left; }
+  .resources-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="glow-bg"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="page-head">
+    <div>
+      <div class="eyebrow">EXECUTIVE SUMMARY · 给老板的 30 秒汇报</div>
+      <h1>让京东设计 wiki<br/>在 <span class="accent">AI 时代</span>真正可用</h1>
+      <p class="subtitle">不是建一套新的设计系统,是把已经存在的 wiki 升级为 AI 可消费的资产。</p>
+    </div>
+    <div class="meta">
+      v1.0 · 2026-04-27<br/>
+      综合业务设计组<br/>
+      Shaka 牵引
+    </div>
+  </header>
+
+  <!-- ============ WHY · 为什么做 ============ -->
+  <section class="section-block">
+    <div class="section-tag">WHY · 为什么做</div>
+    <h2 class="section-title">京东 wiki 在 AI 时代有 <span class="accent">4 个结构性问题</span></h2>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-num">01</div>
+        <h3 class="pain-title">写给人读,AI 用不了</h3>
+        <p class="pain-desc">现有 wiki 自然语言为主,AI 工具(Cursor/Figma AI/v0)无法消费,等于 AI 红利浪费。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">02</div>
+        <h3 class="pain-title">业务线各自为政</h3>
+        <p class="pain-desc">推荐/点评/直播 各做各的卡,体验割裂,用户跨业务认知断裂,转化率受损。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">03</div>
+        <h3 class="pain-title">设计师沉淀难</h3>
+        <p class="pain-desc">新人 onboarding 慢,资深设计师离职带走经验,wiki 沦为存档而不是工作场。</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">04</div>
+        <h3 class="pain-title">竞品已经在用 AI 加速</h3>
+        <p class="pain-desc">小红书/抖音/淘宝设计团队都在引入 AI 工具协作,京东不做就会落后窗口期。</p>
+      </div>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-label">CORE INSIGHT</div>
+      <div class="insight-text">
+        AI 时代的设计护城河,不是<strong>"做得快"</strong>而是<strong>"AI 能不能用我们的设计资产"</strong>。
+        京东积累了 10+ 年设计资产,但如果不升级成 AI 可消费,等于在 AI 时代<strong>资产清零</strong>。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT · 我们做了什么 ============ -->
+  <section class="section-block">
+    <div class="section-tag">WHAT · 三个核心改造</div>
+    <h2 class="section-title">把 wiki 升级为 <span class="accent">"人 + AI 双消费"</span> 的活资产</h2>
+
+    <div class="solution-grid">
+      <div class="pillar">
+        <div class="pillar-icon">🗂</div>
+        <div class="pillar-num">改造 1</div>
+        <h3 class="pillar-title">5 大 Zone 重新分类</h3>
+        <p class="pillar-desc">
+          Design 知识 / Design 基础 / AI 机制 / 产品架构 / 横向专项 — 用<strong>设计师工作场景</strong>重新组织,而不是按文件类型。
+        </p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">📄</div>
+        <div class="pillar-num">改造 2</div>
+        <h3 class="pillar-title">multi-md 文件结构</h3>
+        <p class="pillar-desc">
+          一个组件 = 一个目录 = 多个独立 md 文件 (用研/视觉/体验各管各的)。<strong>角色清晰,Git 协作友好,AI 可订阅字段</strong>。
+        </p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🤖</div>
+        <div class="pillar-num">改造 3</div>
+        <h3 class="pillar-title">部门-业务-组件 三级</h3>
+        <p class="pillar-desc">
+          按京东实际组织架构组织产品架构,<strong>每个设计师都能找到自己的归属和职责</strong>,治理清晰。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SO WHAT · 实现什么效果 ============ -->
+  <section class="section-block">
+    <div class="section-tag">SO WHAT · 分阶段拿到的结果</div>
+    <h2 class="section-title">3 阶段 <span class="accent">可量化</span> 的成果</h2>
+
+    <div class="timeline-grid">
+      <div class="phase short">
+        <div class="phase-time">📅 1 个月 · MVP</div>
+        <h3 class="phase-title">双列卡试点跑通</h3>
+        <p class="phase-result">用双列卡作为样本,跑通"录入 → 模板 → 试点 → 工具打通 → AI 自动化"完整闭环。证明方法论可行。</p>
+        <div class="phase-metric">
+          <span class="num">100%</span> <span>方法论验证</span>
+        </div>
+      </div>
+
+      <div class="phase mid">
+        <div class="phase-time">📅 3 个月 · 推广</div>
+        <h3 class="phase-title">5 个核心业务线上线</h3>
+        <p class="phase-result">推广到 推荐/点评/直播/圈子/新品 5 大业务线。每个业务线都有自己的 wiki 目录 + 试点组件。</p>
+        <div class="phase-metric">
+          <span class="num">+60%</span> <span>跨业务复用率</span>
+        </div>
+      </div>
+
+      <div class="phase long">
+        <div class="phase-time">📅 6 个月 · 全量</div>
+        <h3 class="phase-title">全公司接入</h3>
+        <p class="phase-result">全设计部门接入。AI 工具自动消费设计系统,Figma/Cursor/v0 都能识别京东设计语言。</p>
+        <div class="phase-metric">
+          <span class="num">-40%</span> <span>新人 onboarding 时间</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEXT · 我现在在哪 + 需要支持 ============ -->
+  <section class="section-block">
+    <div class="section-tag">NEXT · 进度和需要的支持</div>
+    <h2 class="section-title">已完成顶层设计,<span class="accent">等开始执行</span></h2>
+
+    <div class="resources">
+      <div class="resources-row">
+        <div class="resources-label">✓ 已完成</div>
+        <div class="resources-text">顶层框架 + 知识树 + 贡献指南 + 演讲大图 + 10 个 md 模板</div>
+      </div>
+      <div class="resources-row">
+        <div class="resources-label">→ 进行中</div>
+        <div class="resources-text">双列卡试点(基于已发布的 jd-double-column-card-skill)</div>
+      </div>
+      <div class="resources-row">
+        <div class="resources-label">⊕ 需要支持</div>
+        <div class="resources-text"><strong style="color:var(--accent);">用研团队</strong>:配合 Research 模板填写 · <strong style="color:var(--accent);">视觉负责人</strong>:Token 体系迁移 · <strong style="color:var(--accent);">AI 团队</strong>:Skill 工程化协作</div>
+      </div>
+      <div class="resources-row">
+        <div class="resources-label">⏳ 时间投入</div>
+        <div class="resources-text">每周 2-3 小时跨部门 sync · 6 个月内不显著影响业务进度</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <div class="cta-block">
+    <p class="cta-text">
+      <span class="accent">设计师的判断</span>,可以变成可被 AI 执行的<span class="accent">资产</span>。<br/>
+      京东有 10 年设计积累,需要的不是新工具,而是让积累<span class="accent">真正用起来</span>。
+    </p>
+    <p class="cta-sub">— 这是我希望和您对齐的核心。</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>v1.0 · 综合业务设计组 · Shaka 牵引</div>
+    <div>
+      详见:
+      <a href="./jd-design-wiki-master-diagram.html">架构大图</a> ·
+      <a href="./jd-design-wiki-knowledge-tree.html">知识树</a> ·
+      <a href="./jd-design-wiki-contributor-guide.html">贡献指南</a>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
